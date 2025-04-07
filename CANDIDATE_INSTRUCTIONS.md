@@ -8,7 +8,7 @@ You are being asked to evaluate a React-based video streaming application called
 ### 1. Setup and Exploration (1 hour)
 1. Clone the repository: `git clone [repository-url]`
 2. Install dependencies: `npm install`
-3. Start the application: `npm start`
+3. Start the application: `npm run dev`
 4. Explore the application thoroughly, taking notes on:
    - Features and functionality
    - User flows
@@ -101,38 +101,7 @@ Please submit the following:
    - Overview of your approach
    - Summary of findings
    - Any assumptions or limitations
-
-## Evaluation Criteria
-Your submission will be evaluated based on:
-
-1. **Test Coverage** (30 points)
-   - Completeness of test plan
-   - Quality of test implementation
-   - Coverage of edge cases
-
-2. **Bug Identification** (25 points)
-   - Number and quality of bugs identified
-   - Clarity of bug documentation
-   - Prioritization of issues
-
-3. **Documentation** (20 points)
-   - Clarity and organization
-   - Completeness of instructions
-   - Professional communication
-
-4. **Problem-Solving** (15 points)
-   - Quality of suggested fixes
-   - Root cause analysis
-   - Creative solutions
-
-5. **Code Quality** (10 points)
-   - Clean, maintainable test code
-   - Proper use of testing frameworks
-   - Efficient implementation
-
-## Time Limit
-You have 10 hours to complete this assessment. Please submit your work by the deadline provided.
-
+   
 ## Tips for Success
 1. Focus on quality over quantity
 2. Prioritize critical issues first
