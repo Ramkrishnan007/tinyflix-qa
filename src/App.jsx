@@ -117,73 +117,113 @@ function App() {
   };
 
   return (
-    <div className="app-container" style={{ padding: 20 }}>
-      <h1>TinyFlix</h1>
+    <div className="app">
+      <nav className="navbar">
+        <div className="container navbar-content">
+          <h1 className="logo">TinyFlix</h1>
+          <div className="nav-buttons">
+            <button className="btn btn-secondary">Sign In</button>
+            <button className="btn btn-primary">Sign Up</button>
+          </div>
+        </div>
+      </nav>
       
-      <div className="controls">
-        <input
-          placeholder="Search videos, tags, or descriptions"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          aria-label="Search videos"
-        />
-        
-        <select 
-          value={filter} 
-          onChange={e => setFilter(e.target.value)}
-          aria-label="Filter videos"
-        >
-          <option value="all">All Videos</option>
-          <option value="recent">Recent</option>
-          <option value="popular">Popular</option>
-        </select>
-
-        <select 
-          value={sortBy} 
-          onChange={e => setSortBy(e.target.value)}
-          aria-label="Sort videos"
-        >
-          <option value="title">Sort by Title</option>
-          <option value="date">Sort by Date</option>
-          <option value="rating">Sort by Rating</option>
-        </select>
-      </div>
-
-      {error && <div className="error-message" role="alert">{error}</div>}
-      
-      <div className="video-grid">
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          filteredVideos.map(video => (
-            <ErrorBoundary key={video.id}>
-              <VideoCard 
-                video={video} 
-                onClick={() => handleVideoSelect(video)}
-                onBookmark={() => handleBookmarkAdd(video)}
+      <main className="container">
+        <div className="content-wrapper">
+          {/* Search and Filters */}
+          <div className="search-filters">
+            <div className="search-container">
+              <input
+                className="input"
+                placeholder="Search videos, tags, or descriptions"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                aria-label="Search videos"
               />
-            </ErrorBoundary>
-          ))
-        )}
-      </div>
+            </div>
+            
+            <div className="filter-controls">
+              <select 
+                className="input"
+                value={filter} 
+                onChange={e => setFilter(e.target.value)}
+                aria-label="Filter videos"
+              >
+                <option value="all">All Videos</option>
+                <option value="recent">Recent</option>
+                <option value="popular">Popular</option>
+              </select>
 
-      {selectedVideo && (
-        <ErrorBoundary>
-          <VideoPlayer 
-            video={selectedVideo} 
-            bookmarks={bookmarks} 
-            setBookmarks={setBookmarks}
-            userPreferences={userPreferences}
-            setUserPreferences={setUserPreferences}
-          />
-          <BookmarkList bookmarks={bookmarks} />
-          <CommentBox 
-            comments={comments} 
-            setComments={setComments}
-            videoId={selectedVideo.id}
-          />
-        </ErrorBoundary>
-      )}
+              <select 
+                className="input"
+                value={sortBy} 
+                onChange={e => setSortBy(e.target.value)}
+                aria-label="Sort videos"
+              >
+                <option value="title">Sort by Title</option>
+                <option value="date">Sort by Date</option>
+                <option value="rating">Sort by Rating</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="error" role="alert">
+              <svg className="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {error}
+            </div>
+          )}
+          
+          {/* Video Grid */}
+          <div className="grid">
+            {isLoading ? (
+              <div className="loading-container">
+                <LoadingSpinner />
+              </div>
+            ) : (
+              filteredVideos.map(video => (
+                <ErrorBoundary key={video.id}>
+                  <VideoCard 
+                    video={video} 
+                    onClick={() => handleVideoSelect(video)}
+                    onBookmark={() => handleBookmarkAdd(video)}
+                  />
+                </ErrorBoundary>
+              ))
+            )}
+          </div>
+
+          {/* Selected Video Section */}
+          {selectedVideo && (
+            <div className="selected-video">
+              <ErrorBoundary>
+                <VideoPlayer 
+                  video={selectedVideo} 
+                  bookmarks={bookmarks} 
+                  setBookmarks={setBookmarks}
+                  userPreferences={userPreferences}
+                  setUserPreferences={setUserPreferences}
+                />
+                <div className="video-details">
+                  <div className="comments-section">
+                    <CommentBox 
+                      comments={comments} 
+                      setComments={setComments}
+                      videoId={selectedVideo.id}
+                    />
+                  </div>
+                  <div className="bookmarks-section">
+                    <BookmarkList bookmarks={bookmarks} />
+                  </div>
+                </div>
+              </ErrorBoundary>
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   )
 }
