@@ -12,5 +12,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
+  },
+  "devDependencies": {
+    "mochawesome": "^7.1.3"
   }
 }
