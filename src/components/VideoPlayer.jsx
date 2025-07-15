@@ -19,20 +19,15 @@ const VideoPlayer = ({ video, bookmarks, setBookmarks, userPreferences, setUserP
   }, [volume, isMuted, playbackRate]);
 
   const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
-    }
+    if (videoRef.current) setCurrentTime(videoRef.current.currentTime);
   };
 
   const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      setDuration(videoRef.current.duration);
-    }
+    if (videoRef.current) setDuration(videoRef.current.duration);
   };
 
   const handleError = (e) => {
     setError('Error loading video. Please try again later.');
-    console.error('Video error:', e);
   };
 
   const formatTime = (time) => {
@@ -90,22 +85,19 @@ const VideoPlayer = ({ video, bookmarks, setBookmarks, userPreferences, setUserP
   return (
     <div className="video-player">
       {error && <div className="error-message" role="alert">{error}</div>}
-      
+
       <video
         ref={videoRef}
-        src={`https://example.com/videos/${video.id}.mp4`} // This would be a real video URL in production
+        src={video.videoUrl}
         poster={video.thumbnail}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onError={handleError}
-        controls={false} // We're using custom controls
+        controls={false}
       />
 
       <div className="video-controls">
-        <button 
-          onClick={handlePlayPause}
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-        >
+        <button onClick={handlePlayPause} aria-label={isPlaying ? 'Pause' : 'Play'}>
           {isPlaying ? '⏸' : '▶️'}
         </button>
 
@@ -123,10 +115,7 @@ const VideoPlayer = ({ video, bookmarks, setBookmarks, userPreferences, setUserP
         </div>
 
         <div className="volume-control">
-          <button 
-            onClick={toggleMute}
-            aria-label={isMuted ? 'Unmute' : 'Mute'}
-          >
+          <button onClick={toggleMute} aria-label={isMuted ? 'Unmute' : 'Mute'}>
             {isMuted ? '🔇' : '🔊'}
           </button>
           <input
@@ -153,10 +142,7 @@ const VideoPlayer = ({ video, bookmarks, setBookmarks, userPreferences, setUserP
           </select>
         </div>
 
-        <button 
-          onClick={addBookmark}
-          aria-label="Add bookmark"
-        >
+        <button onClick={addBookmark} aria-label="Add bookmark">
           📑
         </button>
 

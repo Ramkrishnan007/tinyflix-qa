@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import VideoCard from './components/VideoCard'
-import VideoPlayer from './components/VideoPlayer'
-import BookmarkList from './components/BookmarkList'
-import CommentBox from './components/CommentBox'
-import ErrorBoundary from './components/ErrorBoundary'
-import LoadingSpinner from './components/LoadingSpinner'
+import React, { useState, useEffect } from 'react';
+import VideoCard from './components/VideoCard';
+import VideoPlayer from './components/VideoPlayer';
+import BookmarkList from './components/BookmarkList';
+import CommentBox from './components/CommentBox';
+import ErrorBoundary from './components/ErrorBoundary';
+import LoadingSpinner from './components/LoadingSpinner';
 
-// Simulated API delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const videos = [
-  { 
-    id: 1, 
+  {
+    id: 1,
     title: "React Basics",
     duration: "10:30",
     thumbnail: "https://picsum.photos/200/300",
@@ -19,10 +18,11 @@ const videos = [
     tags: ["react", "javascript", "frontend"],
     viewCount: 1500,
     rating: 4.5,
-    publishedAt: "2024-03-01"
+    publishedAt: "2024-03-01",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
   },
-  { 
-    id: 2, 
+  {
+    id: 2,
     title: "Advanced React",
     duration: "15:45",
     thumbnail: "https://picsum.photos/200/300",
@@ -30,10 +30,11 @@ const videos = [
     tags: ["react", "hooks", "performance"],
     viewCount: 2300,
     rating: 4.8,
-    publishedAt: "2024-03-15"
+    publishedAt: "2024-03-15",
+    videoUrl: "https://www.w3schools.com/html/movie.mp4"
   },
-  { 
-    id: 3, 
+  {
+    id: 3,
     title: "Intro to Testing",
     duration: "12:20",
     thumbnail: "https://picsum.photos/200/300",
@@ -41,7 +42,8 @@ const videos = [
     tags: ["testing", "jest", "react-testing-library"],
     viewCount: 1800,
     rating: 4.2,
-    publishedAt: "2024-03-20"
+    publishedAt: "2024-03-20",
+    videoUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
   },
 ];
 
@@ -52,24 +54,21 @@ function App() {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState('all'); // all, recent, popular
-  const [sortBy, setSortBy] = useState('title'); // title, date, rating
+  const [filter, setFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('title');
   const [userPreferences, setUserPreferences] = useState({
     autoplay: false,
     quality: 'high',
     subtitles: true
   });
 
-  // Simulated API call with error handling
   const fetchVideoDetails = async (videoId) => {
     try {
       setIsLoading(true);
       setError(null);
-      await delay(1000); // Simulate network delay
+      await delay(1000);
       const video = videos.find(v => v.id === videoId);
-      if (!video) {
-        throw new Error('Video not found');
-      }
+      if (!video) throw new Error('Video not found');
       setSelectedVideo(video);
     } catch (err) {
       setError(err.message);
@@ -81,20 +80,17 @@ function App() {
   const filteredVideos = videos
     .filter(v => {
       const matchesSearch = v.title.toLowerCase().includes(search.toLowerCase()) ||
-                          v.description.toLowerCase().includes(search.toLowerCase()) ||
-                          v.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()));
-      
+        v.description.toLowerCase().includes(search.toLowerCase()) ||
+        v.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()));
       if (filter === 'recent') {
         const videoDate = new Date(v.publishedAt);
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
         return matchesSearch && videoDate >= thirtyDaysAgo;
       }
-      
       if (filter === 'popular') {
         return matchesSearch && v.viewCount > 2000;
       }
-      
       return matchesSearch;
     })
     .sort((a, b) => {
@@ -127,10 +123,9 @@ function App() {
           </div>
         </div>
       </nav>
-      
+
       <main className="container">
         <div className="content-wrapper">
-          {/* Search and Filters */}
           <div className="search-filters">
             <div className="search-container">
               <input
@@ -141,11 +136,11 @@ function App() {
                 aria-label="Search videos"
               />
             </div>
-            
+
             <div className="filter-controls">
-              <select 
+              <select
                 className="input"
-                value={filter} 
+                value={filter}
                 onChange={e => setFilter(e.target.value)}
                 aria-label="Filter videos"
               >
@@ -154,9 +149,9 @@ function App() {
                 <option value="popular">Popular</option>
               </select>
 
-              <select 
+              <select
                 className="input"
-                value={sortBy} 
+                value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
                 aria-label="Sort videos"
               >
@@ -167,17 +162,12 @@ function App() {
             </div>
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className="error" role="alert">
-              <svg className="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
               {error}
             </div>
           )}
-          
-          {/* Video Grid */}
+
           <div className="grid">
             {isLoading ? (
               <div className="loading-container">
@@ -186,8 +176,8 @@ function App() {
             ) : (
               filteredVideos.map(video => (
                 <ErrorBoundary key={video.id}>
-                  <VideoCard 
-                    video={video} 
+                  <VideoCard
+                    video={video}
                     onClick={() => handleVideoSelect(video)}
                     onBookmark={() => handleBookmarkAdd(video)}
                   />
@@ -196,21 +186,20 @@ function App() {
             )}
           </div>
 
-          {/* Selected Video Section */}
           {selectedVideo && (
             <div className="selected-video">
               <ErrorBoundary>
-                <VideoPlayer 
-                  video={selectedVideo} 
-                  bookmarks={bookmarks} 
+                <VideoPlayer
+                  video={selectedVideo}
+                  bookmarks={bookmarks}
                   setBookmarks={setBookmarks}
                   userPreferences={userPreferences}
                   setUserPreferences={setUserPreferences}
                 />
                 <div className="video-details">
                   <div className="comments-section">
-                    <CommentBox 
-                      comments={comments} 
+                    <CommentBox
+                      comments={comments}
                       setComments={setComments}
                       videoId={selectedVideo.id}
                     />
@@ -225,7 +214,7 @@ function App() {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
